@@ -1,0 +1,10 @@
+#header h3 {
+  font-weight: bold;
+  color: #3b1859;
+}
+
+#header .slash {
+  margin-top: -35px;
+  height: 15px;
+  background: #a3a3a3;
+}
