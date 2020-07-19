@@ -1,5 +1,6 @@
 {
   "name": "Football App",
+  "gcm_sender_id": "191795733058",
   "short_name": "Football App",
   "theme_color": "#3b1859",
   "background_color": "#3b1859",

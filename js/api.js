@@ -177,6 +177,7 @@ const getFavTeam = () => {
       ).innerHTML = `  <div class="col s12 card red lighten-3">
       <h4>Silahkan Menambahkan Team Favourite...</h4>
     </div>`;
+      showNotifikasi();
     } else {
       let card = "";
       datas.forEach((data) => {

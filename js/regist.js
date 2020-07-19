@@ -11,6 +11,17 @@ const registerServiceWorker = () => {
     });
 };
 
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 // fungsi request permisson notification api
 const requestPermission = () => {
   Notification.requestPermission().then((result) => {
@@ -28,7 +39,7 @@ const requestPermission = () => {
           .subscribe({
             userVisibleOnly: true,
             applicationServerKey: urlBase64ToUint8Array(
-              "BCK8l43tWxLbwTJt3Hdd65GcaRkjCMRvNdnr-wJMZUK4zSqad8qcwsUkovcHRv-n23Cn4dlL9khkHd51zhnBuY8"
+              "BLiZQrqY0EFf66tWENRAny63xZdHaRQ1oRtTx1kCQLy_jpS5TFqb2b1lVeE23IsPhLBdJJceIzzSRWF-wPwpfOk"
             ),
           })
           .then(function (subscribe) {
@@ -62,4 +73,22 @@ const requestPermission = () => {
     }
     console.log("fitur notifikasi diijinkan");
   });
+};
+
+const showNotifikasi = () => {
+  const title = "Empty Fav Tem";
+  const option = {
+    body:
+      "Silahkan menambah Fav Team, \n cukup pergi ke page standing dan click love",
+    icon: "/img/icons/icon-72x72.png",
+    image: "/img/icons/icon-72x72.png",
+    badge: "/img/icons/icon-72x72.png",
+  };
+  if (Notification.permission === "granted") {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.showNotification(title, option);
+    });
+  } else {
+    console.error("fitur notifikasi tidak diijinkan");
+  }
 };
