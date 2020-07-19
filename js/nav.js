@@ -1,6 +1,4 @@
-import { getStandings, getHallOfFame } from "./api.js";
-
-export default function initNav() {
+function initNav() {
   document.addEventListener("DOMContentLoaded", function () {
     // Active sidebar nav
     const elems = document.querySelectorAll(".sidenav");
@@ -56,11 +54,9 @@ export default function initNav() {
               getStandings();
             } else if (page === "HOF") {
               getHallOfFame();
+            } else if (page === "favTeam") {
+              getFavTeam();
             }
-            // else if (page === "myteam") {
-            //   getTeam();
-            //   read();
-            // }
           } else if (this.status == 404) {
             content.innerHTML = "<p>404 Page Not Found.</p>";
           } else {

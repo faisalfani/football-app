@@ -1,9 +1,4 @@
 const base_url = "https://api.football-data.org/v2/competitions/2021/";
-const options = {
-  headers: {
-    "X-Auth-token": "5bcb794019d84ae69b6e136e8603025e",
-  },
-};
 
 const status = (res) => {
   if (res.status !== 200) {
@@ -38,10 +33,10 @@ const getStandings = () => {
               </td>
               <td width="40">
                 <div class="center-align">
-                  <img src="${data.team.crestUrl.replace(
-                    /^http:\/\//i,
-                    "https://"
-                  )}" height="30" />
+                <img src="${data.team.crestUrl.replace(
+                  /^http:\/\//i,
+                  "https://"
+                )}" height="30" />
                 </div>
               </td>
               <td class="hide-on-small-only"><strong>${
@@ -53,6 +48,12 @@ const getStandings = () => {
               <td style="color : #3B1859"><strong>${
                 data.points
               } pts</strong></td>
+              <td><a id="favButton" onClick="addFav({id : '${
+                data.team.id
+              }', name : '${data.team.name}', logo:'${
+              data.team.crestUrl
+            }'})" class=" btn-floating waves-effect white"><i class="pink-text material-icons">favorite</i> </a></td>
+
             </tr>
               `;
           });
@@ -62,7 +63,11 @@ const getStandings = () => {
     });
   }
 
-  fetch(base_url + "standings", options)
+  fetch(base_url + "standings", {
+    headers: {
+      "X-Auth-token": "5bcb794019d84ae69b6e136e8603025e",
+    },
+  })
     .then(status)
     .then(json)
     .then((jsonData) => {
@@ -88,12 +93,18 @@ const getStandings = () => {
           <td>${data.draw} time</td>
           <td>${data.lost} time</td>
           <td style="color : #3B1859"><strong>${data.points} pts</strong></td>
+          <td><a id="favButton" onClick="addFav({id : '${
+            data.team.id
+          }', name :'${data.team.name}', logo:'${
+          data.team.crestUrl
+        }'})" class=" btn-floating waves-effect white"><i class="pink-text material-icons">favorite</i> </a></td>
+
         </tr>
           `;
       });
       tBody.innerHTML = table;
     })
-    .catch(error);
+    .catch((error) => console.log(error));
 };
 
 const getHallOfFame = () => {
@@ -126,7 +137,11 @@ const getHallOfFame = () => {
     });
   }
 
-  fetch(base_url + "scorers", options)
+  fetch(base_url + "scorers", {
+    headers: {
+      "X-Auth-token": "5bcb794019d84ae69b6e136e8603025e",
+    },
+  })
     .then(status)
     .then(json)
     .then((jsonData) => {
@@ -150,7 +165,46 @@ const getHallOfFame = () => {
         </tr>`;
       });
       tbody.innerHTML = table;
-    });
+    })
+    .catch((error) => console.log(error));
 };
 
-export { getStandings, getHallOfFame };
+const getFavTeam = () => {
+  getAll().then((datas) => {
+    if (datas.length == 0) {
+      document.getElementById(
+        "favTeam"
+      ).innerHTML = `  <div class="col s12 card red lighten-3">
+      <h4>Silahkan Menambahkan Team Favourite...</h4>
+    </div>`;
+    } else {
+      let card = "";
+      datas.forEach((data) => {
+        card += `
+        <div class="col s12 m6">
+    <div class="card-panel">
+      <div class="row">
+        <div class="col s3">
+          <img
+            width="50px"
+            height="50px"
+            class="small-team-image"
+            src="${data.logo}"
+            alt="${data.name}"
+          />
+        </div>
+        <div class="col s5 l6" style="padding: 0; margin: 0;">
+          <p style="font-weight:bold;padding-top:5px">
+            ${data.name}
+          </p>
+        </div>
+        <div class="col s4 l3" style="padding-top:10px"><a class="waves-effect waves-light btn pink" onCLick="delFav(${data.id})">Delete</a> </div>
+      </div>
+    </div>
+  </div>
+  `;
+      });
+      document.getElementById("favTeam").innerHTML = card;
+    }
+  });
+};

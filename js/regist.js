@@ -63,5 +63,3 @@ const requestPermission = () => {
     console.log("fitur notifikasi diijinkan");
   });
 };
-
-export { registerServiceWorker };

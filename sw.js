@@ -12,6 +12,8 @@ let urlsToCache = [
   "/js/nav.js",
   "/js/main.js",
   "/js/regist.js",
+  "/js/idb.js",
+  "/js/db.js",
   "/manifest.json",
   "/img/navicon.png",
   "/img/icons/icon-72x72.png",
@@ -31,26 +33,6 @@ self.addEventListener("install", (event) => {
       return cache.addAll(urlsToCache);
     })
   );
-});
-
-self.addEventListener("fetch", (event) => {
-  let base_url = "https://api.football-data.org/v2/competitions/2021/";
-  if (event.request.url.indexOf(base_url) > -1) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then((cache) => {
-        return fetch(event.request).then(function (response) {
-          cache.put(event.request.url, response.clone());
-          return response;
-        });
-      })
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request, { ignoreSearch: true }).then((response) => {
-        return response || fetch(event.response);
-      })
-    );
-  }
 });
 
 // self.addEventListener("fetch", (event) => {
@@ -82,4 +64,24 @@ self.addEventListener("activate", (event) => {
       );
     })
   );
+});
+
+self.addEventListener("fetch", (event) => {
+  let base_url = "https://api.football-data.org/v2/competitions/2021/";
+  if (event.request.url.indexOf(base_url) > -1) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then(function (cache) {
+        return fetch(event.request).then(function (response) {
+          cache.put(event.request.url, response.clone());
+          return response;
+        });
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
