@@ -1,5 +1,13 @@
 const base_url = "https://api.football-data.org/v2/competitions/2021/";
 
+const fetchApi = (url) => {
+  return fetch(url, {
+    headers: {
+      "X-Auth-Token": "5bcb794019d84ae69b6e136e8603025e",
+    },
+  });
+};
+
 const status = (res) => {
   if (res.status !== 200) {
     console.log("error " + res.status);
@@ -33,10 +41,10 @@ const getStandings = () => {
               </td>
               <td width="40">
                 <div class="center-align">
-                <img src="${data.team.crestUrl.replace(
-                  /^http:\/\//i,
-                  "https://"
-                )}" height="30" />
+                <img alt="${data.team.name}" src="${data.team.crestUrl.replace(
+              /^http:\/\//i,
+              "https://"
+            )}" height="30" />
                 </div>
               </td>
               <td class="hide-on-small-only"><strong>${
@@ -48,9 +56,9 @@ const getStandings = () => {
               <td style="color : #3B1859"><strong>${
                 data.points
               } pts</strong></td>
-              <td><a id="favButton" onClick="addFav({id : '${
-                data.team.id
-              }', name : '${data.team.name}', logo:'${
+              <td><a  onClick="addFav({id : '${data.team.id}', name : '${
+              data.team.name
+            }', logo:'${
               data.team.crestUrl
             }'})" class=" btn-floating waves-effect white"><i class="pink-text material-icons">favorite</i> </a></td>
 
@@ -63,11 +71,7 @@ const getStandings = () => {
     });
   }
 
-  fetch(base_url + "standings", {
-    headers: {
-      "X-Auth-token": "5bcb794019d84ae69b6e136e8603025e",
-    },
-  })
+  fetchApi(base_url + "standings")
     .then(status)
     .then(json)
     .then((jsonData) => {
@@ -82,10 +86,10 @@ const getStandings = () => {
           </td>
           <td width="40">
             <div class="center-align">
-              <img src="${data.team.crestUrl.replace(
-                /^http:\/\//i,
-                "https://"
-              )}" height="30" />
+              <img alt="${data.team.name}" src="${data.team.crestUrl.replace(
+          /^http:\/\//i,
+          "https://"
+        )}" height="30" />
             </div>
           </td>
           <td class="hide-on-small-only"><strong>${data.team.name}</strong></td>
@@ -93,9 +97,9 @@ const getStandings = () => {
           <td>${data.draw} time</td>
           <td>${data.lost} time</td>
           <td style="color : #3B1859"><strong>${data.points} pts</strong></td>
-          <td><a id="favButton" onClick="addFav({id : '${
-            data.team.id
-          }', name :'${data.team.name}', logo:'${
+          <td><a  onClick="addFav({id : '${data.team.id}', name :'${
+          data.team.name
+        }', logo:'${
           data.team.crestUrl
         }'})" class=" btn-floating waves-effect white"><i class="pink-text material-icons">favorite</i> </a></td>
 
@@ -137,11 +141,7 @@ const getHallOfFame = () => {
     });
   }
 
-  fetch(base_url + "scorers", {
-    headers: {
-      "X-Auth-token": "5bcb794019d84ae69b6e136e8603025e",
-    },
-  })
+  fetchApi(base_url + "scorers")
     .then(status)
     .then(json)
     .then((jsonData) => {
@@ -174,7 +174,7 @@ const getFavTeam = () => {
     if (datas.length == 0) {
       document.getElementById(
         "favTeam"
-      ).innerHTML = `  <div class="col s12 card red lighten-3">
+      ).innerHTML = `<div class="col s12 card red lighten-3">
       <h4>Silahkan Menambahkan Team Favourite...</h4>
     </div>`;
       showNotifikasi();

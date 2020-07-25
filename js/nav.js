@@ -8,8 +8,8 @@ function initNav() {
     function loadNav() {
       const xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-          if (this.status != 200) return;
+        if (this.readyState === 4) {
+          if (this.status !== 200) return;
 
           // load list menu links
           document
@@ -24,7 +24,7 @@ function initNav() {
             .forEach(function (elm) {
               elm.addEventListener("click", function (event) {
                 //close sidenav
-                var sidenav = document.querySelector(".sidenav");
+                let sidenav = document.querySelector(".sidenav");
                 M.Sidenav.getInstance(sidenav).close();
 
                 // load content call page
@@ -39,16 +39,16 @@ function initNav() {
     }
 
     // load page content
-    var page = window.location.hash.substr(1);
-    if (page == "") page = "standings";
+    let page = window.location.hash.substr(1);
+    if (page === "") page = "standings";
     loadPage(page);
 
     function loadPage(page) {
       const xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
+        if (this.readyState === 4) {
           const content = document.querySelector("#body-content");
-          if (this.status == 200) {
+          if (this.status === 200) {
             content.innerHTML = xhttp.responseText;
             if (page === "standings") {
               getStandings();
@@ -57,7 +57,7 @@ function initNav() {
             } else if (page === "favTeam") {
               getFavTeam();
             }
-          } else if (this.status == 404) {
+          } else if (this.status === 404) {
             content.innerHTML = "<p>404 Page Not Found.</p>";
           } else {
             content.innerHTML = "<p>Ups.. Page cannot access</p>";

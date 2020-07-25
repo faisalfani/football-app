@@ -10,6 +10,7 @@ const addFav = (data) => {
     .then((db) => {
       let tx = db.transaction("favteam", "readwrite");
       let store = tx.objectStore("favteam");
+      //menggunakan add() karena ingin catch exception dan mengeluarkan alert ketika ada data yang ingin di save dengan id yang sama
       store.add(data);
       return tx.complete;
     })
@@ -55,6 +56,5 @@ const delFav = (id) => {
         html: `<strong>Team remove from favourite</strong>`,
         classes: "yellow lighten-2 orange-text text-darken-4",
       });
-      console.log("item terhapus");
     });
 };
