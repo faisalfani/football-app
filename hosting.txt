@@ -1,0 +1,2 @@
+firebase hosting : https://football-app-8e4e9.web.app/
+github.io : https://faisalfani.github.io/football-app/
