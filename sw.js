@@ -26,15 +26,11 @@ workbox.precaching.precacheAndRoute(
     { url: "/img/icons/icon-192x192.png", revision: "1" },
     { url: "/img/icons/icon-384x384.png", revision: "1" },
     { url: "/img/icons/icon-512x512.png", revision: "1" },
+    { url: "/pages/favTeam.html", revision: "1" },
+    { url: "/pages/HOF.html", revision: "1" },
+    { url: "/pages/standings.html", revision: "1" },
   ],
   { ignoreUrlParametersMatching: [/.*/] }
-);
-
-workbox.routing.registerRoute(
-  new RegExp("/pages/"),
-  workbox.strategies.staleWhileRevalidate({
-    cacheName: "pages",
-  })
 );
 
 workbox.routing.registerRoute(
